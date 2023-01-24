@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState,useLayoutEffect } from 'react';
 import { StyleSheet, Text, View,FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons} from '@expo/vector-icons';
 import Colors from '../constants/colors';
 
-const ListButtons= ({title,color,navigation}) => {
+const ListButtons= ({ title,color,navigation,onDelete }) => {
     return (
         <TouchableOpacity onPress={() => {navigation.navigate('Projectlist', {title,color}) }} style={[styles.itemContainer, {backgroundColor:color}]}>
             <View>
@@ -15,7 +15,7 @@ const ListButtons= ({title,color,navigation}) => {
                 <Ionicons name='options' size={24} color="green" />
             </TouchableOpacity>  
                 
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={onDelete}>
                 <Ionicons name='trash' size={24} color="red" />
             </TouchableOpacity>
             </View>
@@ -24,18 +24,49 @@ const ListButtons= ({title,color,navigation}) => {
     )
 }
 
-const projects = [{title: "Bank-Design Phase", color: Colors.green},
+//add project component
+
+
+
+const projectList = 
+[   
+    {title: "Bank-Design Phase", color: Colors.green},
     {title:"Mutual Fund- Analysis Phase", color:Colors.blue},
     {title: "Food App- Testing Phase", color: Colors.purple}
 ]
 
 const Home = ({navigation}) =>{
+    const [projects,setProjects] = useState(projectList)
+
+    const removeProject = (index) => {
+        const projectsCopy = [...projects];
+        projectsCopy.splice(index, 1);
+        setProjects(projectsCopy);
+    };
+    
+    //Add Project
+    const addProject = (project)=>{
+        setProjects([...projects,projects])
+    }
+
+    
+
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headrRight:()=>renderAddListIcon(addProject)
+        })
+    })
     return (
         <View style={styles.container}>
             <Text>Hi, Soumyadeep! Welcome to the world</Text>
             <FlatList data={projects} renderItem= {({item:{title,color}, index}) =>{
                 return(
-                    <ListButtons title={title} color={color} navigation={navigation} />
+                    <ListButtons 
+                    title={title} 
+                    color={color} 
+                    navigation={navigation}
+                    onDelete = {()=>removeProject(index)} 
+                    />
                 )
             }} />
         </View>
@@ -44,6 +75,7 @@ const Home = ({navigation}) =>{
 
 
 export default Home
+
 
 const styles = StyleSheet.create({
     container: {
