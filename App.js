@@ -7,13 +7,14 @@ import Home from './screens/Home';
 import Projectlist from './screens/Projectlist';
 import TestUseFetch from './component/testUseFetch';
 import CameraApp from './component/cameraDemo';
+import CameraDemo from './component/cameraDemo';
 
 export default function App() {
   return (
         // <View style={styles.container}>
         //   <CameraApp />
         // </View>
-      <View style={styles.container}><TestUseFetch /></View>
+      <View><CameraDemo /></View>
       // <NavigationContainer>
       //   <Stack.Navigator>
       //     <Stack.Screen name='Home' component={Home} />
@@ -30,9 +31,9 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      backgroundColor: "lightblue",
-  }
-})
+// const styles = StyleSheet.create({
+//   container: {
+//       flex: 1,
+//       backgroundColor: "lightblue",
+//   }
+// })
